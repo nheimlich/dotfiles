@@ -1,2 +1,7 @@
 # dotfiles
-showcase of the tools and customization I give a system for my own workflow
+Showcase of my tools and customization for my own workflow.
+
+#### current working directory is $HOME.
+
+.zshrc
+.config/zk
