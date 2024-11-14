@@ -1,0 +1,53 @@
+[notebook]
+dir = "~/notebook"
+
+[note]
+lang = "en"
+default-title = "Untitled"
+
+[extra]
+author = "Nolan"
+
+[tool]
+editor = "vim"
+shell = "/bin/zsh"
+pager = "less -FIRX"
+fzf-preview = "bat -p --color always {-1}"
+
+[alias]
+config = 'vim "$HOME/.config/zk/config.toml"' #edit this config
+edlast = "zk edit --limit 1 --sort modified- $@" #edit last edited file
+recent = "zk edit --sort created- --created-after 'last two weeks' --interactive" #edit recently created file
+weekly = 'zk new --no-input "$ZK_NOTEBOOK_DIR/weekly"' #weekly notes
+standup = 'zk new --no-input "$ZK_NOTEBOOK_DIR/standup"' #daily standup 
+misc = 'zk new --id $1 "$ZK_NOTEBOOK_DIR/misc"' #create a note appending notename to alias
+ls = "zk edit --interactive" #show all notes for filtering *requires bat
+ls-standup = 'zk edit "$ZK_NOTEBOOK_DIR/standup" --sort created- --interactive' 
+update = "cd $ZK_NOTEBOOK_DIR; git pull; git add -A; git commit -am 'updating'; git push; cd -; zk index" #update notes and add to repository
+rm = "zk list --interactive --quiet --format path --delimiter0 $1 | xargs -0 rm -vf --" #remove a specific note
+slides = "zk list --interactive --quiet --format path --delimiter0 $1 | xargs -0 slides" #show notes in a slide format *requires slides
+
+[format.markdown]
+hashtags = true
+colon-tags = false
+
+[group.standup]
+paths = ["standup"]
+
+[group.standup.note]
+filename = "{{format-date now}}"
+extension = "md"
+template = "standup.md"
+
+[group.weekly]
+paths = ["weekly"]
+
+[group.weekly.note]
+filename = "{{format-date now '%V-%Y'}}"
+extension = "md"
+template = "weekly.md"
+
+[lsp]
+[lsp.diagnostics]
+wiki-title = "hint"
+dead-link = "error"
